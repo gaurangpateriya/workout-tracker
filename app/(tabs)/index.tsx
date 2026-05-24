@@ -1,14 +1,115 @@
-import { StyleSheet } from 'react-native';
+import { useFocusEffect, useRouter } from 'expo-router';
+import { useCallback, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+} from 'react-native';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { View } from '@/components/Themed';
+import { EmptyState } from '@/src/components/EmptyState';
+import { PlanCard } from '@/src/components/PlanCard';
+import { deletePlan, getAllPlans } from '@/src/db/queries/plans';
+import { useActiveWorkoutStore } from '@/src/stores/activeWorkout';
+import type { WorkoutPlanSummary } from '@/src/types';
+import { showAlert } from '@/src/utils/alert';
 
-export default function TabOneScreen() {
+export default function PlansScreen() {
+  const router = useRouter();
+  const startWorkout = useActiveWorkoutStore((s) => s.startWorkout);
+  const [plans, setPlans] = useState<WorkoutPlanSummary[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [startingPlanId, setStartingPlanId] = useState<string | null>(null);
+
+  const loadPlans = useCallback(async () => {
+    try {
+      const data = await getAllPlans();
+      setPlans(data);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      setLoading(true);
+      loadPlans();
+    }, [loadPlans])
+  );
+
+  const confirmDelete = (plan: WorkoutPlanSummary) => {
+    showAlert(
+      'Delete Plan',
+      `Delete "${plan.name}"? Completed workout history will be kept.`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            await deletePlan(plan.id);
+            loadPlans();
+          },
+        },
+      ]
+    );
+  };
+
+  const handleStart = async (plan: WorkoutPlanSummary) => {
+    if (plan.exerciseCount === 0) {
+      showAlert(
+        'No Exercises',
+        'Add at least one exercise to this plan before starting a workout.'
+      );
+      return;
+    }
+
+    setStartingPlanId(plan.id);
+    try {
+      const sessionId = await startWorkout(plan.id);
+      router.push(`/workout/${sessionId}`);
+    } catch (err) {
+      showAlert(
+        'Could Not Start',
+        err instanceof Error ? err.message : 'Failed to start workout.'
+      );
+    } finally {
+      setStartingPlanId(null);
+    }
+  };
+
+  if (loading && plans.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <FlatList
+        data={plans}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={
+          plans.length === 0 ? styles.emptyList : styles.list
+        }
+        ListEmptyComponent={
+          <EmptyState
+            title="No plans yet"
+            subtitle="Tap + to create your first workout plan."
+          />
+        }
+        renderItem={({ item }) => (
+          <PlanCard
+            plan={item}
+            onPress={() => router.push(`/plan/${item.id}`)}
+            onDelete={() => confirmDelete(item)}
+            onStart={() => handleStart(item)}
+            isStarting={startingPlanId === item.id}
+          />
+        )}
+      />
     </View>
   );
 }
@@ -16,16 +117,17 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  centered: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  list: {
+    padding: 16,
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  emptyList: {
+    flexGrow: 1,
+    padding: 16,
   },
 });

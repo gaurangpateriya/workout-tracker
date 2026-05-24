@@ -1,14 +1,18 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Platform, Pressable } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 
+const TAB_BAR_HEIGHT = Platform.select({ ios: 49, default: 56 }) ?? 56;
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme];
+  const insets = useSafeAreaInsets();
 
   return (
     <Tabs
@@ -18,6 +22,8 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: colors.tabBar,
           borderTopColor: colors.border,
+          paddingBottom: insets.bottom,
+          height: TAB_BAR_HEIGHT + insets.bottom,
         },
         headerStyle: { backgroundColor: colors.card },
         headerTintColor: colors.text,

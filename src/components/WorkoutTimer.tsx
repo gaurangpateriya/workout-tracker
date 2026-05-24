@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View as RNView } from 'react-native';
 
 import { Text } from '@/components/Themed';
 import { formatTimerDuration } from '@/src/utils/formatDuration';
@@ -23,10 +23,17 @@ export function WorkoutTimer({ startedAt }: WorkoutTimerProps) {
     return () => clearInterval(interval);
   }, [startedAt]);
 
-  return <Text style={styles.timer}>{formatTimerDuration(elapsed)}</Text>;
+  return (
+    <RNView style={styles.container}>
+      <Text style={styles.timer}>{formatTimerDuration(elapsed)}</Text>
+    </RNView>
+  );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginRight: 15,
+  },
   timer: {
     fontSize: 17,
     fontWeight: '600',

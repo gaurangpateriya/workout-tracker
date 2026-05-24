@@ -10,10 +10,14 @@ import { View } from '@/components/Themed';
 import { EmptyState } from '@/src/components/EmptyState';
 import { SessionCard } from '@/src/components/SessionCard';
 import { getCompletedSessions } from '@/src/db/queries/history';
+import { deleteSession } from '@/src/db/queries/sessions';
+import { useTabListPadding } from '@/src/hooks/useTabListPadding';
 import type { CompletedSessionSummary } from '@/src/types';
+import { showAlert } from '@/src/utils/alert';
 
 export default function HistoryScreen() {
   const router = useRouter();
+  const listPadding = useTabListPadding();
   const [sessions, setSessions] = useState<CompletedSessionSummary[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -33,6 +37,24 @@ export default function HistoryScreen() {
     }, [loadSessions])
   );
 
+  const confirmDelete = (session: CompletedSessionSummary) => {
+    showAlert(
+      'Delete Workout',
+      `Delete "${session.planName}" from ${new Date(session.completedAt).toLocaleDateString()}? This cannot be undone.`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            await deleteSession(session.id);
+            loadSessions();
+          },
+        },
+      ]
+    );
+  };
+
   if (loading && sessions.length === 0) {
     return (
       <View style={styles.centered}>
@@ -47,7 +69,9 @@ export default function HistoryScreen() {
         data={sessions}
         keyExtractor={(item) => item.id}
         contentContainerStyle={
-          sessions.length === 0 ? styles.emptyList : styles.list
+          sessions.length === 0
+            ? { ...styles.emptyList, ...listPadding }
+            : listPadding
         }
         ListEmptyComponent={
           <EmptyState
@@ -59,6 +83,7 @@ export default function HistoryScreen() {
           <SessionCard
             session={item}
             onPress={() => router.push(`/session/${item.id}`)}
+            onDelete={() => confirmDelete(item)}
           />
         )}
       />
@@ -75,11 +100,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  list: {
-    padding: 16,
-  },
   emptyList: {
     flexGrow: 1,
-    padding: 16,
   },
 });

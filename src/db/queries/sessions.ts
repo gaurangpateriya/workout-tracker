@@ -257,6 +257,19 @@ export async function updateSessionMetadata(
   }
 }
 
+export async function deleteSession(sessionId: string): Promise<void> {
+  const db = await getDatabase();
+  const result = await db.runAsync(
+    `DELETE FROM workout_sessions
+     WHERE id = ? AND completed_at IS NOT NULL`,
+    sessionId
+  );
+
+  if (result.changes === 0) {
+    throw new Error(`Completed session not found: ${sessionId}`);
+  }
+}
+
 export async function getActiveSession(): Promise<WorkoutSession | null> {
   const db = await getDatabase();
   const row = await db.getFirstAsync<SessionRow>(

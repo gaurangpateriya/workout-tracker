@@ -203,6 +203,7 @@ const styles = StyleSheet.create({
   wrapper: {
     marginTop: 8,
     gap: 8,
+    width: '100%',
   },
   startButton: {
     borderWidth: 1.5,
@@ -223,12 +224,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+    width: '100%',
   },
   input: {
     flex: 1,
+    flexBasis: 0,
+    minWidth: 0,
     borderWidth: 1,
     borderRadius: 8,
-    paddingHorizontal: 12,
+    paddingHorizontal: 8,
     paddingVertical: 10,
     fontSize: 16,
     textAlign: 'center',

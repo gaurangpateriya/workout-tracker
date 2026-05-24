@@ -10,12 +10,14 @@ import { View } from '@/components/Themed';
 import { EmptyState } from '@/src/components/EmptyState';
 import { PlanCard } from '@/src/components/PlanCard';
 import { deletePlan, getAllPlans } from '@/src/db/queries/plans';
+import { useTabListPadding } from '@/src/hooks/useTabListPadding';
 import { useActiveWorkoutStore } from '@/src/stores/activeWorkout';
 import type { WorkoutPlanSummary } from '@/src/types';
 import { showAlert } from '@/src/utils/alert';
 
 export default function PlansScreen() {
   const router = useRouter();
+  const listPadding = useTabListPadding();
   const startWorkout = useActiveWorkoutStore((s) => s.startWorkout);
   const [plans, setPlans] = useState<WorkoutPlanSummary[]>([]);
   const [loading, setLoading] = useState(true);
@@ -92,7 +94,9 @@ export default function PlansScreen() {
         data={plans}
         keyExtractor={(item) => item.id}
         contentContainerStyle={
-          plans.length === 0 ? styles.emptyList : styles.list
+          plans.length === 0
+            ? { ...styles.emptyList, ...listPadding }
+            : listPadding
         }
         ListEmptyComponent={
           <EmptyState
@@ -123,11 +127,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  list: {
-    padding: 16,
-  },
   emptyList: {
     flexGrow: 1,
-    padding: 16,
   },
 });

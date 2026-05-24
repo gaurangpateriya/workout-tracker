@@ -12,9 +12,11 @@ import { Text, View } from '@/components/Themed';
 import { SessionMetadataSection } from '@/src/components/SessionMetadataSection';
 import { SetListItem } from '@/src/components/SetListItem';
 import { getSessionDetail } from '@/src/db/queries/history';
+import { deleteSession } from '@/src/db/queries/sessions';
 import { useTheme } from '@/src/hooks/useTheme';
 import type { WorkoutSessionWithDetails } from '@/src/types';
 import { formatWorkoutDuration } from '@/src/utils/formatDuration';
+import { showAlert } from '@/src/utils/alert';
 
 function formatSessionDateTime(timestamp: number): string {
   return new Date(timestamp).toLocaleString(undefined, {
@@ -59,6 +61,28 @@ export default function SessionDetailScreen() {
   useEffect(() => {
     loadSession();
   }, [loadSession]);
+
+  const confirmDelete = () => {
+    if (!session) {
+      return;
+    }
+
+    showAlert(
+      'Delete Workout',
+      `Delete this workout? This cannot be undone.`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            await deleteSession(session.id);
+            router.back();
+          },
+        },
+      ]
+    );
+  };
 
   if (loading) {
     return (
@@ -143,6 +167,18 @@ export default function SessionDetailScreen() {
             )}
           </RNView>
         ))}
+
+        <Pressable
+          onPress={confirmDelete}
+          style={({ pressed }) => [
+            styles.deleteButton,
+            { opacity: pressed ? 0.5 : 1 },
+          ]}
+        >
+          <Text style={[styles.deleteLabel, { color: colors.error }]}>
+            Delete Workout
+          </Text>
+        </Pressable>
       </ScrollView>
     </>
   );
@@ -190,5 +226,14 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 16,
+  },
+  deleteButton: {
+    marginTop: 20,
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  deleteLabel: {
+    fontSize: 17,
+    fontWeight: '600',
   },
 });

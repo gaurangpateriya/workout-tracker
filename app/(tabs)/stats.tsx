@@ -6,9 +6,11 @@ import { View } from '@/components/Themed';
 import { GraphHubCard } from '@/src/analytics/components/GraphHubCard';
 import { GRAPH_REGISTRY } from '@/src/analytics/registry';
 import { EmptyState } from '@/src/components/EmptyState';
+import { useTabListPadding } from '@/src/hooks/useTabListPadding';
 
 export default function StatsScreen() {
   const router = useRouter();
+  const listPadding = useTabListPadding();
 
   useFocusEffect(
     useCallback(() => {
@@ -22,7 +24,9 @@ export default function StatsScreen() {
         data={GRAPH_REGISTRY}
         keyExtractor={(item) => item.id}
         contentContainerStyle={
-          GRAPH_REGISTRY.length === 0 ? styles.emptyList : styles.list
+          GRAPH_REGISTRY.length === 0
+            ? { ...styles.emptyList, ...listPadding }
+            : listPadding
         }
         ListEmptyComponent={
           <EmptyState
@@ -45,11 +49,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  list: {
-    padding: 16,
-  },
   emptyList: {
     flexGrow: 1,
-    padding: 16,
   },
 });

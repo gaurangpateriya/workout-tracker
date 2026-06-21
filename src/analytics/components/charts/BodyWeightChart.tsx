@@ -109,7 +109,7 @@ export function BodyWeightChart({ range }: GraphComponentProps) {
           spacing={chartConfig.spacing}
           initialSpacing={16}
           maxValue={chartConfig.maxValue}
-          {...getCommonLineChartProps(colors)}
+          {...getCommonLineChartProps(colors, ["Weight"])}
           formatYLabel={(label) => `${label}`}
         />
       </ScrollView>

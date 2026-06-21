@@ -171,6 +171,7 @@ export function ExerciseProgressChart({ range }: GraphComponentProps) {
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <LineChart
+              width={chartConfig.chartWidth}
               data={chartConfig.weightData}
               data2={chartConfig.repsData}
               spacing={chartConfig.spacing}
@@ -180,7 +181,7 @@ export function ExerciseProgressChart({ range }: GraphComponentProps) {
               color2={colors.muted}
               dataPointsColor1={colors.tint}
               dataPointsColor2={colors.muted}
-              {...getCommonLineChartProps(colors)}
+              {...getCommonLineChartProps(colors, ["Weight", "Reps"])}
               secondaryYAxis={{
                 maxValue: chartConfig.maxReps,
                 noOfSections: 4,

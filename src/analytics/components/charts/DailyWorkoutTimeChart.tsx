@@ -99,7 +99,7 @@ export function DailyWorkoutTimeChart({ range }: GraphComponentProps) {
           width={chartWidth}
           spacing={spacing}
           maxValue={maxValue}
-          {...getCommonLineChartProps(colors)}
+          {...getCommonLineChartProps(colors, ["Time"])}
         />
       </ScrollView>
       {/* <RNView style={styles.footer}>

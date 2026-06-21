@@ -9,9 +9,7 @@ import {
 import { LineChart } from "react-native-gifted-charts";
 
 import {
-  CHART_HEIGHT,
   getChartWidth,
-  getCommonAreaChartProps,
   getCommonLineChartProps,
   getLineSpacing,
 } from "@/src/analytics/components/charts/chartConfig";
@@ -106,20 +104,13 @@ export function BodyWeightChart({ range }: GraphComponentProps) {
       </Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <LineChart
-          {...getCommonAreaChartProps(colors)}
           data={chartConfig.data}
-          height={CHART_HEIGHT}
           width={chartConfig.chartWidth}
           spacing={chartConfig.spacing}
           initialSpacing={16}
           maxValue={chartConfig.maxValue}
-          noOfSections={4}
-          color={colors.tint}
-          thickness={2}
-          dataPointsColor={colors.tint}
           {...getCommonLineChartProps(colors)}
           formatYLabel={(label) => `${label}`}
-          adjustToWidth
         />
       </ScrollView>
       <RNView style={styles.footer}>

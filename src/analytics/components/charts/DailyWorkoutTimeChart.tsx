@@ -9,9 +9,7 @@ import {
 import { LineChart } from "react-native-gifted-charts";
 
 import {
-  CHART_HEIGHT,
   getChartWidth,
-  getCommonAreaChartProps,
   getCommonLineChartProps,
   getLineSpacing,
 } from "@/src/analytics/components/charts/chartConfig";
@@ -20,7 +18,6 @@ import { EmptyState } from "@/src/components/EmptyState";
 import { getDailyWorkoutTime } from "@/src/db/queries/analytics";
 import { useTheme } from "@/src/hooks/useTheme";
 import type { DailyWorkoutTimePoint } from "@/src/types";
-import { formatWorkoutDuration } from "@/src/utils/formatDuration";
 
 function toChartMinutes(totalSeconds: number): number {
   return Math.round((totalSeconds / 60) * 10) / 10;
@@ -85,7 +82,6 @@ export function DailyWorkoutTimeChart({ range }: GraphComponentProps) {
   const maxValue = getMaxChartValue(points);
   const spacing = getLineSpacing(points.length);
   const chartWidth = getChartWidth(points.length, spacing, 80);
-  const commonChartProps = getCommonLineChartProps(colors);
 
   return (
     <RNView
@@ -99,24 +95,14 @@ export function DailyWorkoutTimeChart({ range }: GraphComponentProps) {
       </Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <LineChart
-          {...getCommonAreaChartProps(colors)}
           data={lineData}
-          height={CHART_HEIGHT}
           width={chartWidth}
           spacing={spacing}
           maxValue={maxValue}
-          noOfSections={4}
-          color={colors.tint}
-          thickness={2}
-          dataPointsColor={colors.tint}
-          dataPointsRadius={4}
-          hideDataPoints={false}
-          {...commonChartProps}
-          formatYLabel={(label) => `${label}m`}
-          adjustToWidth
+          {...getCommonLineChartProps(colors)}
         />
       </ScrollView>
-      <RNView style={styles.footer}>
+      {/* <RNView style={styles.footer}>
         {points
           .filter((point) => point.totalSeconds > 0)
           .slice(-5)
@@ -128,7 +114,7 @@ export function DailyWorkoutTimeChart({ range }: GraphComponentProps) {
               {point.label}: {formatWorkoutDuration(point.totalSeconds)}
             </Text>
           ))}
-      </RNView>
+      </RNView> */}
     </RNView>
   );
 }

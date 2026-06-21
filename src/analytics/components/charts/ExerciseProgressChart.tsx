@@ -9,9 +9,7 @@ import {
 import { LineChart, yAxisSides } from "react-native-gifted-charts";
 
 import {
-  CHART_HEIGHT,
   getChartWidth,
-  getCommonAreaChartProps,
   getCommonLineChartProps,
   getLineSpacing,
 } from "@/src/analytics/components/charts/chartConfig";
@@ -173,18 +171,13 @@ export function ExerciseProgressChart({ range }: GraphComponentProps) {
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <LineChart
-              {...getCommonAreaChartProps(colors)}
               data={chartConfig.weightData}
               data2={chartConfig.repsData}
-              height={CHART_HEIGHT}
-              width={chartConfig.chartWidth}
               spacing={chartConfig.spacing}
               initialSpacing={16}
               maxValue={chartConfig.maxWeight}
-              noOfSections={4}
               color1={colors.tint}
               color2={colors.muted}
-              thickness={2}
               dataPointsColor1={colors.tint}
               dataPointsColor2={colors.muted}
               {...getCommonLineChartProps(colors)}

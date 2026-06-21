@@ -33,6 +33,7 @@ export interface SessionExercise {
   sessionId: string;
   exerciseName: string;
   sortOrder: number;
+  sourcePlanExerciseId: string | null;
 }
 
 export interface ExerciseSet {

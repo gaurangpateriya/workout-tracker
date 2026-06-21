@@ -1,11 +1,15 @@
 import { getDatabase } from '@/src/db/database';
-import type { DailyWorkoutTimePoint, ExerciseSessionStats, BodyWeightEntry } from '@/src/types';
+import type {
+  DailyWorkoutTimePoint,
+  ExerciseSessionStats,
+  BodyWeightEntry,
+} from '@/src/types';
 import {
+  buildDateBuckets,
   fillDailyWorkoutBuckets,
-  getDateRange,
   type DateBucket,
 } from '@/src/analytics/dateRanges';
-import type { AnalyticsPeriod } from '@/src/types';
+import type { DashboardDateRange } from '@/src/analytics/types';
 
 interface DailyWorkoutRow {
   day_key: string;
@@ -47,11 +51,12 @@ export async function getDailyWorkoutTimeByDay(
 }
 
 export async function getDailyWorkoutTime(
-  period: AnalyticsPeriod
+  range: DashboardDateRange
 ): Promise<DailyWorkoutTimePoint[]> {
-  const { startMs, endMs, buckets } = getDateRange(period);
+  const buckets = buildDateBuckets(range);
+  const { startMs, endMs } = range;
   const dailyTotals = await getDailyWorkoutTimeByDay(startMs, endMs);
-  return fillDailyWorkoutBuckets(period, buckets, dailyTotals);
+  return fillDailyWorkoutBuckets(buckets, dailyTotals);
 }
 
 export async function getLoggedExerciseNames(): Promise<string[]> {
@@ -102,9 +107,9 @@ export async function getExerciseSessionStats(
 
 export async function getExerciseProgress(
   exerciseName: string,
-  period: AnalyticsPeriod
+  range: DashboardDateRange
 ): Promise<ExerciseSessionStats[]> {
-  const { startMs, endMs } = getDateRange(period);
+  const { startMs, endMs } = range;
   return getExerciseSessionStats(exerciseName, startMs, endMs);
 }
 
@@ -138,12 +143,12 @@ export async function getBodyWeightEntries(
 }
 
 export async function getBodyWeightHistory(
-  period: AnalyticsPeriod
+  range: DashboardDateRange
 ): Promise<BodyWeightEntry[]> {
-  const { startMs, endMs } = getDateRange(period);
+  const { startMs, endMs } = range;
   return getBodyWeightEntries(startMs, endMs);
 }
 
-export function getPeriodBuckets(period: AnalyticsPeriod): DateBucket[] {
-  return getDateRange(period).buckets;
+export function getRangeBuckets(range: DashboardDateRange): DateBucket[] {
+  return buildDateBuckets(range);
 }

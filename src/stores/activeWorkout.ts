@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 
 import {
+  addExerciseToSession,
+  deleteExerciseFromSession,
   addSet as addSetToDb,
   finishWorkout as finishWorkoutInDb,
   getSessionWithDetails,
@@ -13,6 +15,8 @@ interface ActiveWorkoutStore extends ActiveWorkout {
   error: string | null;
   loadSession: (sessionId: string) => Promise<void>;
   startWorkout: (planId: string) => Promise<string>;
+  addExercise: (exerciseName: string) => Promise<void>;
+  deleteExercise: (sessionExerciseId: string) => Promise<void>;
   addSet: (
     sessionExerciseId: string,
     weight: number,
@@ -86,13 +90,20 @@ export const useActiveWorkoutStore = create<ActiveWorkoutStore>((set, get) => ({
 
       const workout = sessionToActiveWorkout(session);
       const isSameSession = previous.sessionId === sessionId;
+      const previousActiveExerciseExists = session.exercises.some(
+        (exercise) => exercise.id === previous.activeSet?.exerciseId
+      );
 
       set({
         ...workout,
-        activeSet: isSameSession ? previous.activeSet : null,
-        restStartedAt: isSameSession
-          ? previous.restStartedAt
-          : workout.lastSetLoggedAt,
+        activeSet:
+          isSameSession && previousActiveExerciseExists
+            ? previous.activeSet
+            : null,
+        restStartedAt:
+          isSameSession && previousActiveExerciseExists
+            ? previous.restStartedAt
+            : workout.lastSetLoggedAt,
         isLoading: false,
       });
     } catch (err) {
@@ -114,6 +125,42 @@ export const useActiveWorkoutStore = create<ActiveWorkoutStore>((set, get) => ({
       set({
         error: err instanceof Error ? err.message : 'Failed to start workout',
         isLoading: false,
+      });
+      throw err;
+    }
+  },
+
+  addExercise: async (exerciseName) => {
+    const { sessionId } = get();
+    if (!sessionId) {
+      throw new Error('No active workout session');
+    }
+
+    set({ error: null });
+    try {
+      await addExerciseToSession(sessionId, exerciseName);
+      await get().loadSession(sessionId);
+    } catch (err) {
+      set({
+        error: err instanceof Error ? err.message : 'Failed to add exercise',
+      });
+      throw err;
+    }
+  },
+
+  deleteExercise: async (sessionExerciseId) => {
+    const { sessionId } = get();
+    if (!sessionId) {
+      throw new Error('No active workout session');
+    }
+
+    set({ error: null });
+    try {
+      await deleteExerciseFromSession(sessionId, sessionExerciseId);
+      await get().loadSession(sessionId);
+    } catch (err) {
+      set({
+        error: err instanceof Error ? err.message : 'Failed to delete exercise',
       });
       throw err;
     }
@@ -199,14 +246,19 @@ export const useActiveWorkoutStore = create<ActiveWorkoutStore>((set, get) => ({
   },
 
   finishWorkout: async () => {
-    const { sessionId } = get();
+    const { sessionId, exercises } = get();
     if (!sessionId) {
       throw new Error('No active workout session');
     }
 
     set({ isLoading: true, error: null });
     try {
-      await finishWorkoutInDb(sessionId);
+      await finishWorkoutInDb(
+        sessionId,
+        exercises
+          .filter((exercise) => exercise.sourcePlanExerciseId === null)
+          .map((exercise) => exercise.exerciseName)
+      );
       set({ ...initialState });
     } catch (err) {
       set({

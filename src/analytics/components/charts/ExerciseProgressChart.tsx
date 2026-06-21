@@ -1,20 +1,34 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, Text, View as RNView } from 'react-native';
-import { LineChart, yAxisSides } from 'react-native-gifted-charts';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  ActivityIndicator,
+  View as RNView,
+  ScrollView,
+  StyleSheet,
+  Text,
+} from "react-native";
+import { LineChart, yAxisSides } from "react-native-gifted-charts";
 
-import { EmptyState } from '@/src/components/EmptyState';
-import { LoggedExercisePicker } from '@/src/analytics/components/charts/LoggedExercisePicker';
-import { getExerciseProgress, getLoggedExerciseNames } from '@/src/db/queries/analytics';
-import { useTheme } from '@/src/hooks/useTheme';
-import type { GraphComponentProps } from '@/src/analytics/types';
-import type { ExerciseSessionStats } from '@/src/types';
-
-const CHART_HEIGHT = 220;
+import {
+  CHART_HEIGHT,
+  getChartWidth,
+  getCommonAreaChartProps,
+  getCommonLineChartProps,
+  getLineSpacing,
+} from "@/src/analytics/components/charts/chartConfig";
+import { LoggedExercisePicker } from "@/src/analytics/components/charts/LoggedExercisePicker";
+import type { GraphComponentProps } from "@/src/analytics/types";
+import { EmptyState } from "@/src/components/EmptyState";
+import {
+  getExerciseProgress,
+  getLoggedExerciseNames,
+} from "@/src/db/queries/analytics";
+import { useTheme } from "@/src/hooks/useTheme";
+import type { ExerciseSessionStats } from "@/src/types";
 
 function formatSessionLabel(timestamp: number): string {
   return new Date(timestamp).toLocaleDateString(undefined, {
-    month: 'short',
-    day: 'numeric',
+    month: "short",
+    day: "numeric",
   });
 }
 
@@ -27,7 +41,7 @@ function getMaxValue(values: number[], fallback: number): number {
   return Math.ceil(max * 1.15);
 }
 
-export function ExerciseProgressChart({ period }: GraphComponentProps) {
+export function ExerciseProgressChart({ range }: GraphComponentProps) {
   const { colors } = useTheme();
   const [exerciseName, setExerciseName] = useState<string | null>(null);
   const [stats, setStats] = useState<ExerciseSessionStats[]>([]);
@@ -53,12 +67,12 @@ export function ExerciseProgressChart({ period }: GraphComponentProps) {
 
     setLoadingStats(true);
     try {
-      const data = await getExerciseProgress(exerciseName, period);
+      const data = await getExerciseProgress(exerciseName, range);
       setStats(data);
     } finally {
       setLoadingStats(false);
     }
-  }, [exerciseName, period]);
+  }, [exerciseName, range]);
 
   useEffect(() => {
     loadStats();
@@ -77,12 +91,8 @@ export function ExerciseProgressChart({ period }: GraphComponentProps) {
       dataPointColor: colors.muted,
     }));
 
-    const barWidth = period === 'year' ? 18 : period === 'month' ? 10 : 28;
-    const spacing = period === 'year' ? 12 : period === 'month' ? 6 : 16;
-    const chartWidth = Math.max(
-      Dimensions.get('window').width - 48,
-      stats.length * (barWidth + spacing) + 48
-    );
+    const spacing = getLineSpacing(stats.length);
+    const chartWidth = getChartWidth(stats.length, spacing);
 
     return {
       weightData,
@@ -91,14 +101,14 @@ export function ExerciseProgressChart({ period }: GraphComponentProps) {
       spacing,
       maxWeight: getMaxValue(
         stats.map((entry) => entry.maxWeight),
-        100
+        100,
       ),
       maxReps: getMaxValue(
         stats.map((entry) => entry.maxReps),
-        12
+        12,
       ),
     };
-  }, [colors.muted, colors.tint, period, stats]);
+  }, [colors.muted, colors.tint, stats]);
 
   if (initializing) {
     return (
@@ -133,7 +143,7 @@ export function ExerciseProgressChart({ period }: GraphComponentProps) {
       ) : stats.length === 0 ? (
         <EmptyState
           title="No data for this period"
-          subtitle={`No logged sets for ${exerciseName} in the selected ${period}.`}
+          subtitle={`No logged sets for ${exerciseName} in the selected date range.`}
         />
       ) : (
         <RNView
@@ -144,17 +154,26 @@ export function ExerciseProgressChart({ period }: GraphComponentProps) {
         >
           <RNView style={styles.legendRow}>
             <RNView style={styles.legendItem}>
-              <RNView style={[styles.legendDot, { backgroundColor: colors.tint }]} />
-              <Text style={[styles.legendLabel, { color: colors.text }]}>Max weight</Text>
+              <RNView
+                style={[styles.legendDot, { backgroundColor: colors.tint }]}
+              />
+              <Text style={[styles.legendLabel, { color: colors.text }]}>
+                Max weight
+              </Text>
             </RNView>
             <RNView style={styles.legendItem}>
-              <RNView style={[styles.legendDot, { backgroundColor: colors.muted }]} />
-              <Text style={[styles.legendLabel, { color: colors.text }]}>Max reps</Text>
+              <RNView
+                style={[styles.legendDot, { backgroundColor: colors.muted }]}
+              />
+              <Text style={[styles.legendLabel, { color: colors.text }]}>
+                Max reps
+              </Text>
             </RNView>
           </RNView>
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <LineChart
+              {...getCommonAreaChartProps(colors)}
               data={chartConfig.weightData}
               data2={chartConfig.repsData}
               height={CHART_HEIGHT}
@@ -168,12 +187,7 @@ export function ExerciseProgressChart({ period }: GraphComponentProps) {
               thickness={2}
               dataPointsColor1={colors.tint}
               dataPointsColor2={colors.muted}
-              yAxisTextStyle={{ color: colors.muted, fontSize: 11 }}
-              xAxisLabelTextStyle={{ color: colors.muted, fontSize: 10, width: 44 }}
-              rulesColor={colors.border}
-              yAxisColor={colors.border}
-              xAxisColor={colors.border}
-              isAnimated
+              {...getCommonLineChartProps(colors)}
               secondaryYAxis={{
                 maxValue: chartConfig.maxReps,
                 noOfSections: 4,
@@ -192,8 +206,8 @@ export function ExerciseProgressChart({ period }: GraphComponentProps) {
 const styles = StyleSheet.create({
   loading: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 80,
   },
   card: {
@@ -202,17 +216,17 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 12,
     paddingLeft: 8,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   legendRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 16,
     paddingHorizontal: 12,
     marginBottom: 8,
   },
   legendItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   legendDot: {
     width: 10,
@@ -222,6 +236,6 @@ const styles = StyleSheet.create({
   },
   legendLabel: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: "500",
   },
 });

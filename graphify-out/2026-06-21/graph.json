@@ -330,7 +330,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tabs_index",
-      "community": 1,
+      "community": 3,
       "norm_label": "index.tsx"
     },
     {
@@ -350,7 +350,7 @@
       "source_location": "L121",
       "_origin": "ast",
       "id": "tabs_index_styles",
-      "community": 1,
+      "community": 3,
       "norm_label": "styles"
     },
     {
@@ -410,7 +410,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_not_found",
-      "community": 0,
+      "community": 3,
       "norm_label": "+not-found.tsx"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "app_not_found_notfoundscreen",
-      "community": 0,
+      "community": 3,
       "norm_label": "notfoundscreen()"
     },
     {
@@ -430,7 +430,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "app_not_found_styles",
-      "community": 0,
+      "community": 3,
       "norm_label": "styles"
     },
     {
@@ -490,7 +490,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_modal",
-      "community": 5,
+      "community": 3,
       "norm_label": "modal.tsx"
     },
     {
@@ -500,7 +500,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "app_modal_modalscreen",
-      "community": 5,
+      "community": 3,
       "norm_label": "modalscreen()"
     },
     {
@@ -510,7 +510,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "app_modal_styles",
-      "community": 5,
+      "community": 3,
       "norm_label": "styles"
     },
     {
@@ -520,7 +520,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "plan_id",
-      "community": 0,
+      "community": 1,
       "norm_label": "[id].tsx"
     },
     {
@@ -530,7 +530,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "plan_id_draftexercise",
-      "community": 0,
+      "community": 1,
       "norm_label": "draftexercise"
     },
     {
@@ -540,7 +540,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "plan_id_planeditorscreen",
-      "community": 0,
+      "community": 1,
       "norm_label": "planeditorscreen()"
     },
     {
@@ -550,7 +550,7 @@
       "source_location": "L266",
       "_origin": "ast",
       "id": "plan_id_styles",
-      "community": 0,
+      "community": 1,
       "norm_label": "styles"
     },
     {
@@ -690,7 +690,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_editscreeninfo",
-      "community": 5,
+      "community": 3,
       "norm_label": "editscreeninfo.tsx"
     },
     {
@@ -700,7 +700,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "components_editscreeninfo_editscreeninfo",
-      "community": 5,
+      "community": 3,
       "norm_label": "editscreeninfo()"
     },
     {
@@ -710,7 +710,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "components_editscreeninfo_styles",
-      "community": 5,
+      "community": 3,
       "norm_label": "styles"
     },
     {
@@ -720,7 +720,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_externallink",
-      "community": 5,
+      "community": 3,
       "norm_label": "externallink.tsx"
     },
     {
@@ -730,7 +730,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "components_externallink_externallink",
-      "community": 5,
+      "community": 3,
       "norm_label": "externallink()"
     },
     {
@@ -740,7 +740,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_styledtext",
-      "community": 5,
+      "community": 3,
       "norm_label": "styledtext.tsx"
     },
     {
@@ -750,7 +750,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "components_styledtext_monotext",
-      "community": 5,
+      "community": 3,
       "norm_label": "monotext()"
     },
     {
@@ -760,7 +760,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_themed",
-      "community": 0,
+      "community": 3,
       "norm_label": "themed.tsx"
     },
     {
@@ -770,7 +770,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "components_themed_themeprops",
-      "community": 0,
+      "community": 3,
       "norm_label": "themeprops"
     },
     {
@@ -780,7 +780,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "components_themed_textprops",
-      "community": 5,
+      "community": 3,
       "norm_label": "textprops"
     },
     {
@@ -790,7 +790,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "components_themed_viewprops",
-      "community": 0,
+      "community": 3,
       "norm_label": "viewprops"
     },
     {
@@ -800,7 +800,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "components_themed_usethemecolor",
-      "community": 0,
+      "community": 3,
       "norm_label": "usethemecolor()"
     },
     {
@@ -820,7 +820,7 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "components_themed_view",
-      "community": 0,
+      "community": 3,
       "norm_label": "view()"
     },
     {
@@ -1660,7 +1660,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_graphhubcard",
-      "community": 3,
+      "community": 6,
       "norm_label": "graphhubcard.tsx"
     },
     {
@@ -1670,7 +1670,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "components_graphhubcard_graphhubcardprops",
-      "community": 3,
+      "community": 6,
       "norm_label": "graphhubcardprops"
     },
     {
@@ -1680,7 +1680,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "components_graphhubcard_graphhubcard",
-      "community": 3,
+      "community": 6,
       "norm_label": "graphhubcard()"
     },
     {
@@ -1690,7 +1690,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "components_graphhubcard_styles",
-      "community": 3,
+      "community": 6,
       "norm_label": "styles"
     },
     {
@@ -1797,7 +1797,7 @@
       "label": "formatSessionLabel()",
       "file_type": "code",
       "source_file": "src/analytics/components/charts/BodyWeightChart.tsx",
-      "source_location": "L18",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "charts_bodyweightchart_formatsessionlabel",
       "community": 4,
@@ -1807,7 +1807,7 @@
       "label": "getMaxValue()",
       "file_type": "code",
       "source_file": "src/analytics/components/charts/BodyWeightChart.tsx",
-      "source_location": "L25",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "charts_bodyweightchart_getmaxvalue",
       "community": 4,
@@ -1817,7 +1817,7 @@
       "label": "BodyWeightChart()",
       "file_type": "code",
       "source_file": "src/analytics/components/charts/BodyWeightChart.tsx",
-      "source_location": "L34",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "charts_bodyweightchart_bodyweightchart",
       "community": 4,
@@ -1827,7 +1827,7 @@
       "label": "styles",
       "file_type": "code",
       "source_file": "src/analytics/components/charts/BodyWeightChart.tsx",
-      "source_location": "L133",
+      "source_location": "L132",
       "_origin": "ast",
       "id": "charts_bodyweightchart_styles",
       "community": 4,
@@ -1847,7 +1847,7 @@
       "label": "toChartMinutes()",
       "file_type": "code",
       "source_file": "src/analytics/components/charts/DailyWorkoutTimeChart.tsx",
-      "source_location": "L19",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "charts_dailyworkouttimechart_tochartminutes",
       "community": 4,
@@ -1857,7 +1857,7 @@
       "label": "getMaxChartValue()",
       "file_type": "code",
       "source_file": "src/analytics/components/charts/DailyWorkoutTimeChart.tsx",
-      "source_location": "L23",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "charts_dailyworkouttimechart_getmaxchartvalue",
       "community": 4,
@@ -1867,7 +1867,7 @@
       "label": "DailyWorkoutTimeChart()",
       "file_type": "code",
       "source_file": "src/analytics/components/charts/DailyWorkoutTimeChart.tsx",
-      "source_location": "L35",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "charts_dailyworkouttimechart_dailyworkouttimechart",
       "community": 4,
@@ -1877,7 +1877,7 @@
       "label": "styles",
       "file_type": "code",
       "source_file": "src/analytics/components/charts/DailyWorkoutTimeChart.tsx",
-      "source_location": "L130",
+      "source_location": "L133",
       "_origin": "ast",
       "id": "charts_dailyworkouttimechart_styles",
       "community": 4,
@@ -2014,16 +2014,6 @@
       "norm_label": "getcommonlinechartprops()"
     },
     {
-      "label": "getCommonAreaChartProps()",
-      "file_type": "code",
-      "source_file": "src/analytics/components/charts/chartConfig.ts",
-      "source_location": "L51",
-      "_origin": "ast",
-      "id": "charts_chartconfig_getcommonareachartprops",
-      "community": 4,
-      "norm_label": "getcommonareachartprops()"
-    },
-    {
       "label": "dateRanges.ts",
       "file_type": "code",
       "source_file": "src/analytics/dateRanges.ts",
@@ -2040,7 +2030,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "analytics_dateranges_datebucket",
-      "community": 4,
+      "community": 6,
       "norm_label": "datebucket"
     },
     {
@@ -2150,7 +2140,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "analytics_dateranges_filldailyworkoutbuckets",
-      "community": 4,
+      "community": 6,
       "norm_label": "filldailyworkoutbuckets()"
     },
     {
@@ -2160,7 +2150,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useanalyticsgraph",
-      "community": 6,
+      "community": 17,
       "norm_label": "useanalyticsgraph.ts"
     },
     {
@@ -2170,7 +2160,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "hooks_useanalyticsgraph_usegraphperiod",
-      "community": 6,
+      "community": 17,
       "norm_label": "usegraphperiod()"
     },
     {
@@ -2190,7 +2180,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "analytics_registry_graph_registry",
-      "community": 3,
+      "community": 4,
       "norm_label": "graph_registry"
     },
     {
@@ -2210,7 +2200,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "analytics_types",
-      "community": 4,
+      "community": 6,
       "norm_label": "types.ts"
     },
     {
@@ -2230,7 +2220,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "analytics_types_graphcomponentprops",
-      "community": 4,
+      "community": 6,
       "norm_label": "graphcomponentprops"
     },
     {
@@ -2240,7 +2230,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "analytics_types_graphdefinition",
-      "community": 3,
+      "community": 6,
       "norm_label": "graphdefinition"
     },
     {
@@ -2250,7 +2240,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_emptystate",
-      "community": 4,
+      "community": 3,
       "norm_label": "emptystate.tsx"
     },
     {
@@ -2260,7 +2250,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "components_emptystate_emptystateprops",
-      "community": 4,
+      "community": 3,
       "norm_label": "emptystateprops"
     },
     {
@@ -2270,7 +2260,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "components_emptystate_emptystate",
-      "community": 4,
+      "community": 3,
       "norm_label": "emptystate()"
     },
     {
@@ -2280,7 +2270,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "components_emptystate_styles",
-      "community": 4,
+      "community": 3,
       "norm_label": "styles"
     },
     {
@@ -2390,7 +2380,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "components_ongoingworkoutbanner_ongoingworkoutbanner",
-      "community": 0,
+      "community": 5,
       "norm_label": "ongoingworkoutbanner()"
     },
     {
@@ -2410,7 +2400,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_plancard",
-      "community": 1,
+      "community": 17,
       "norm_label": "plancard.tsx"
     },
     {
@@ -2420,7 +2410,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_plancard_plancardprops",
-      "community": 1,
+      "community": 17,
       "norm_label": "plancardprops"
     },
     {
@@ -2430,7 +2420,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "components_plancard_plancard",
-      "community": 1,
+      "community": 17,
       "norm_label": "plancard()"
     },
     {
@@ -2440,7 +2430,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "components_plancard_styles",
-      "community": 1,
+      "community": 17,
       "norm_label": "styles"
     },
     {
@@ -2500,7 +2490,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "components_sessioncard_sessioncardprops",
-      "community": 3,
+      "community": 17,
       "norm_label": "sessioncardprops"
     },
     {
@@ -2640,7 +2630,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_setlistitem_setlistitemprops",
-      "community": 1,
+      "community": 0,
       "norm_label": "setlistitemprops"
     },
     {
@@ -2770,7 +2760,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "db_database_initdatabase",
-      "community": 5,
+      "community": 1,
       "norm_label": "initdatabase()"
     },
     {
@@ -2790,7 +2780,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "queries_analytics",
-      "community": 4,
+      "community": 6,
       "norm_label": "analytics.ts"
     },
     {
@@ -2800,7 +2790,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "queries_analytics_dailyworkoutrow",
-      "community": 4,
+      "community": 6,
       "norm_label": "dailyworkoutrow"
     },
     {
@@ -2810,7 +2800,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "queries_analytics_exercisesessionrow",
-      "community": 4,
+      "community": 6,
       "norm_label": "exercisesessionrow"
     },
     {
@@ -2820,7 +2810,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "queries_analytics_getdailyworkouttimebyday",
-      "community": 4,
+      "community": 6,
       "norm_label": "getdailyworkouttimebyday()"
     },
     {
@@ -2830,7 +2820,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "queries_analytics_getdailyworkouttime",
-      "community": 4,
+      "community": 6,
       "norm_label": "getdailyworkouttime()"
     },
     {
@@ -2850,7 +2840,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "queries_analytics_getexercisesessionstats",
-      "community": 4,
+      "community": 6,
       "norm_label": "getexercisesessionstats()"
     },
     {
@@ -2860,7 +2850,7 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "queries_analytics_getexerciseprogress",
-      "community": 4,
+      "community": 6,
       "norm_label": "getexerciseprogress()"
     },
     {
@@ -2870,7 +2860,7 @@
       "source_location": "L116",
       "_origin": "ast",
       "id": "queries_analytics_bodyweightrow",
-      "community": 4,
+      "community": 6,
       "norm_label": "bodyweightrow"
     },
     {
@@ -2880,7 +2870,7 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "queries_analytics_getbodyweightentries",
-      "community": 4,
+      "community": 6,
       "norm_label": "getbodyweightentries()"
     },
     {
@@ -2890,7 +2880,7 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "queries_analytics_getbodyweighthistory",
-      "community": 4,
+      "community": 6,
       "norm_label": "getbodyweighthistory()"
     },
     {
@@ -2900,7 +2890,7 @@
       "source_location": "L152",
       "_origin": "ast",
       "id": "queries_analytics_getrangebuckets",
-      "community": 4,
+      "community": 6,
       "norm_label": "getrangebuckets()"
     },
     {
@@ -2980,7 +2970,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "queries_history",
-      "community": 3,
+      "community": 1,
       "norm_label": "history.ts"
     },
     {
@@ -2990,7 +2980,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "queries_history_completedsessionrow",
-      "community": 3,
+      "community": 1,
       "norm_label": "completedsessionrow"
     },
     {
@@ -3000,7 +2990,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "queries_history_getcompletedsessions",
-      "community": 3,
+      "community": 1,
       "norm_label": "getcompletedsessions()"
     },
     {
@@ -3010,7 +3000,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "queries_history_getsessiondetail",
-      "community": 0,
+      "community": 1,
       "norm_label": "getsessiondetail()"
     },
     {
@@ -3290,7 +3280,7 @@
       "source_location": "L409",
       "_origin": "ast",
       "id": "queries_sessions_deletesession",
-      "community": 3,
+      "community": 0,
       "norm_label": "deletesession()"
     },
     {
@@ -3380,7 +3370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_usetheme",
-      "community": 0,
+      "community": 5,
       "norm_label": "usetheme.ts"
     },
     {
@@ -3470,7 +3460,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "types_index",
-      "community": 1,
+      "community": 17,
       "norm_label": "index.ts"
     },
     {
@@ -3480,7 +3470,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "types_index_workoutplan",
-      "community": 1,
+      "community": 17,
       "norm_label": "workoutplan"
     },
     {
@@ -3500,7 +3490,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "types_index_workoutplanwithexercises",
-      "community": 1,
+      "community": 17,
       "norm_label": "workoutplanwithexercises"
     },
     {
@@ -3510,7 +3500,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "types_index_workoutplansummary",
-      "community": 1,
+      "community": 17,
       "norm_label": "workoutplansummary"
     },
     {
@@ -3520,7 +3510,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "types_index_workoutsession",
-      "community": 1,
+      "community": 17,
       "norm_label": "workoutsession"
     },
     {
@@ -3530,7 +3520,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "types_index_sessionexercise",
-      "community": 1,
+      "community": 17,
       "norm_label": "sessionexercise"
     },
     {
@@ -3540,7 +3530,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "types_index_exerciseset",
-      "community": 1,
+      "community": 0,
       "norm_label": "exerciseset"
     },
     {
@@ -3550,7 +3540,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "types_index_sessionexercisewithsets",
-      "community": 1,
+      "community": 17,
       "norm_label": "sessionexercisewithsets"
     },
     {
@@ -3560,7 +3550,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "types_index_workoutsessionwithdetails",
-      "community": 1,
+      "community": 17,
       "norm_label": "workoutsessionwithdetails"
     },
     {
@@ -3570,7 +3560,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "types_index_completedsessionsummary",
-      "community": 3,
+      "community": 17,
       "norm_label": "completedsessionsummary"
     },
     {
@@ -3580,7 +3570,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "types_index_activesetstate",
-      "community": 1,
+      "community": 17,
       "norm_label": "activesetstate"
     },
     {
@@ -3600,7 +3590,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "types_index_catalogexercise",
-      "community": 1,
+      "community": 0,
       "norm_label": "catalogexercise"
     },
     {
@@ -3620,7 +3610,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "types_index_dailyworkouttimepoint",
-      "community": 4,
+      "community": 6,
       "norm_label": "dailyworkouttimepoint"
     },
     {
@@ -3700,7 +3690,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_exercisesummary",
-      "community": 1,
+      "community": 0,
       "norm_label": "exercisesummary.ts"
     },
     {
@@ -3710,7 +3700,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "utils_exercisesummary_exercisetimesummary",
-      "community": 1,
+      "community": 0,
       "norm_label": "exercisetimesummary"
     },
     {
@@ -3780,7 +3770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_validatesetinput",
-      "community": 1,
+      "community": 0,
       "norm_label": "validatesetinput.ts"
     },
     {
@@ -3790,7 +3780,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_validatesetinput_setinputvalues",
-      "community": 1,
+      "community": 0,
       "norm_label": "setinputvalues"
     },
     {
@@ -3800,7 +3790,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "utils_validatesetinput_setinputvalidation",
-      "community": 1,
+      "community": 0,
       "norm_label": "setinputvalidation"
     },
     {
@@ -7802,9 +7792,9 @@
       "source_file": "src/analytics/components/charts/chartConfig.ts",
       "source_location": "L5",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_chartconfig",
-      "target": "constants_colors"
+      "target": "constants_colors",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -7865,9 +7855,9 @@
       "source_file": "src/analytics/components/charts/chartConfig.ts",
       "source_location": "L5",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_chartconfig",
-      "target": "constants_colors_themecolors"
+      "target": "constants_colors_themecolors",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -9128,30 +9118,8 @@
       "source_file": "src/analytics/components/charts/BodyWeightChart.tsx",
       "source_location": "L10",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_bodyweightchart",
-      "target": "charts_chartconfig"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/analytics/components/charts/BodyWeightChart.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "charts_bodyweightchart",
-      "target": "charts_chartconfig_getchartwidth"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/analytics/components/charts/BodyWeightChart.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "source": "charts_bodyweightchart",
-      "target": "charts_chartconfig_getcommonareachartprops",
+      "target": "charts_chartconfig",
       "confidence_score": 1.0
     },
     {
@@ -9161,9 +9129,9 @@
       "source_file": "src/analytics/components/charts/BodyWeightChart.tsx",
       "source_location": "L10",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_bodyweightchart",
-      "target": "charts_chartconfig_getcommonlinechartprops"
+      "target": "charts_chartconfig_getchartwidth",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -9172,9 +9140,20 @@
       "source_file": "src/analytics/components/charts/BodyWeightChart.tsx",
       "source_location": "L10",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_bodyweightchart",
-      "target": "charts_chartconfig_getlinespacing"
+      "target": "charts_chartconfig_getcommonlinechartprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/analytics/components/charts/BodyWeightChart.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "charts_bodyweightchart",
+      "target": "charts_chartconfig_getlinespacing",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -9281,17 +9260,6 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/analytics/components/charts/BodyWeightChart.tsx",
-      "source_location": "L103",
-      "weight": 1.0,
-      "source": "charts_bodyweightchart_bodyweightchart",
-      "target": "charts_chartconfig_getcommonareachartprops"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/analytics/components/charts/BodyWeightChart.tsx",
       "source_location": "L113",
       "weight": 1.0,
       "source": "charts_bodyweightchart_bodyweightchart",
@@ -9348,30 +9316,8 @@
       "source_file": "src/analytics/components/charts/DailyWorkoutTimeChart.tsx",
       "source_location": "L11",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_dailyworkouttimechart",
-      "target": "charts_chartconfig"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/analytics/components/charts/DailyWorkoutTimeChart.tsx",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "charts_dailyworkouttimechart",
-      "target": "charts_chartconfig_getchartwidth"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/analytics/components/charts/DailyWorkoutTimeChart.tsx",
-      "source_location": "L11",
-      "weight": 1.0,
-      "source": "charts_dailyworkouttimechart",
-      "target": "charts_chartconfig_getcommonareachartprops",
+      "target": "charts_chartconfig",
       "confidence_score": 1.0
     },
     {
@@ -9381,9 +9327,9 @@
       "source_file": "src/analytics/components/charts/DailyWorkoutTimeChart.tsx",
       "source_location": "L11",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_dailyworkouttimechart",
-      "target": "charts_chartconfig_getcommonlinechartprops"
+      "target": "charts_chartconfig_getchartwidth",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -9392,9 +9338,20 @@
       "source_file": "src/analytics/components/charts/DailyWorkoutTimeChart.tsx",
       "source_location": "L11",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_dailyworkouttimechart",
-      "target": "charts_chartconfig_getlinespacing"
+      "target": "charts_chartconfig_getcommonlinechartprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/analytics/components/charts/DailyWorkoutTimeChart.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "charts_dailyworkouttimechart",
+      "target": "charts_chartconfig_getlinespacing",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -9585,17 +9542,6 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/analytics/components/charts/DailyWorkoutTimeChart.tsx",
-      "source_location": "L96",
-      "weight": 1.0,
-      "source": "charts_dailyworkouttimechart_dailyworkouttimechart",
-      "target": "charts_chartconfig_getcommonareachartprops"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/analytics/components/charts/DailyWorkoutTimeChart.tsx",
       "source_location": "L81",
       "weight": 1.0,
       "source": "charts_dailyworkouttimechart_dailyworkouttimechart",
@@ -9663,9 +9609,9 @@
       "source_file": "src/analytics/components/charts/ExerciseProgressChart.tsx",
       "source_location": "L11",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_exerciseprogresschart",
-      "target": "charts_chartconfig"
+      "target": "charts_chartconfig",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -9674,9 +9620,9 @@
       "source_file": "src/analytics/components/charts/ExerciseProgressChart.tsx",
       "source_location": "L11",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_exerciseprogresschart",
-      "target": "charts_chartconfig_getchartwidth"
+      "target": "charts_chartconfig_getchartwidth",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -9685,9 +9631,9 @@
       "source_file": "src/analytics/components/charts/ExerciseProgressChart.tsx",
       "source_location": "L11",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_exerciseprogresschart",
-      "target": "charts_chartconfig_getcommonlinechartprops"
+      "target": "charts_chartconfig_getcommonlinechartprops",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -9696,9 +9642,9 @@
       "source_file": "src/analytics/components/charts/ExerciseProgressChart.tsx",
       "source_location": "L11",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_exerciseprogresschart",
-      "target": "charts_chartconfig_getlinespacing"
+      "target": "charts_chartconfig_getlinespacing",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -9985,18 +9931,8 @@
       "source_file": "src/analytics/components/charts/chartConfig.ts",
       "source_location": "L10",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_chartconfig",
-      "target": "charts_chartconfig_getchartwidth"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/analytics/components/charts/chartConfig.ts",
-      "source_location": "L51",
-      "weight": 1.0,
-      "source": "charts_chartconfig",
-      "target": "charts_chartconfig_getcommonareachartprops",
+      "target": "charts_chartconfig_getchartwidth",
       "confidence_score": 1.0
     },
     {
@@ -10005,9 +9941,9 @@
       "source_file": "src/analytics/components/charts/chartConfig.ts",
       "source_location": "L33",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_chartconfig",
-      "target": "charts_chartconfig_getcommonlinechartprops"
+      "target": "charts_chartconfig_getcommonlinechartprops",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -10015,9 +9951,9 @@
       "source_file": "src/analytics/components/charts/chartConfig.ts",
       "source_location": "L17",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "charts_chartconfig",
-      "target": "charts_chartconfig_getlinespacing"
+      "target": "charts_chartconfig_getlinespacing",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",

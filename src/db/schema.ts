@@ -29,6 +29,7 @@ export const SCHEMA_STATEMENTS = [
     session_id TEXT NOT NULL,
     exercise_name TEXT NOT NULL,
     sort_order INTEGER NOT NULL,
+    source_plan_exercise_id TEXT,
     FOREIGN KEY (session_id) REFERENCES workout_sessions(id) ON DELETE CASCADE
   )`,
   `CREATE TABLE IF NOT EXISTS exercise_sets (

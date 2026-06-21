@@ -1,24 +1,33 @@
 import { ScrollView, StyleSheet, View as RNView } from 'react-native';
 
 import { View } from '@/components/Themed';
-import { PeriodSelector } from '@/src/analytics/components/PeriodSelector';
-import type { AnalyticsPeriod } from '@/src/types';
+import { DashboardDateRangePicker } from '@/src/analytics/components/DashboardDateRangePicker';
+import type { DashboardDateRange } from '@/src/analytics/types';
 
 interface GraphScreenLayoutProps {
-  period: AnalyticsPeriod;
-  onPeriodChange: (period: AnalyticsPeriod) => void;
+  days: number;
+  onDaysChange: (days: number) => void;
+  range: DashboardDateRange | null;
+  onRangeChange: (range: DashboardDateRange | null) => void;
   children: React.ReactNode;
 }
 
 export function GraphScreenLayout({
-  period,
-  onPeriodChange,
+  days,
+  onDaysChange,
+  range,
+  onRangeChange,
   children,
 }: GraphScreenLayoutProps) {
   return (
     <View style={styles.container}>
       <RNView style={styles.controls}>
-        <PeriodSelector value={period} onChange={onPeriodChange} />
+        <DashboardDateRangePicker
+          days={days}
+          onDaysChange={onDaysChange}
+          range={range}
+          onRangeChange={onRangeChange}
+        />
       </RNView>
       <ScrollView
         contentContainerStyle={styles.scrollContent}

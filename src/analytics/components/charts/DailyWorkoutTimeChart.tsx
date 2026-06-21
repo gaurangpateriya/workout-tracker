@@ -1,22 +1,36 @@
-import { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, Text, View as RNView } from 'react-native';
-import { BarChart } from 'react-native-gifted-charts';
+import { useCallback, useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  View as RNView,
+  ScrollView,
+  StyleSheet,
+  Text,
+} from "react-native";
+import { LineChart } from "react-native-gifted-charts";
 
-import { EmptyState } from '@/src/components/EmptyState';
-import { getDailyWorkoutTime } from '@/src/db/queries/analytics';
-import { useTheme } from '@/src/hooks/useTheme';
-import type { GraphComponentProps } from '@/src/analytics/types';
-import type { DailyWorkoutTimePoint } from '@/src/types';
-import { formatWorkoutDuration } from '@/src/utils/formatDuration';
-
-const CHART_HEIGHT = 220;
+import {
+  CHART_HEIGHT,
+  getChartWidth,
+  getCommonAreaChartProps,
+  getCommonLineChartProps,
+  getLineSpacing,
+} from "@/src/analytics/components/charts/chartConfig";
+import type { GraphComponentProps } from "@/src/analytics/types";
+import { EmptyState } from "@/src/components/EmptyState";
+import { getDailyWorkoutTime } from "@/src/db/queries/analytics";
+import { useTheme } from "@/src/hooks/useTheme";
+import type { DailyWorkoutTimePoint } from "@/src/types";
+import { formatWorkoutDuration } from "@/src/utils/formatDuration";
 
 function toChartMinutes(totalSeconds: number): number {
   return Math.round((totalSeconds / 60) * 10) / 10;
 }
 
 function getMaxChartValue(points: DailyWorkoutTimePoint[]): number {
-  const maxMinutes = Math.max(...points.map((point) => toChartMinutes(point.totalSeconds)), 0);
+  const maxMinutes = Math.max(
+    ...points.map((point) => toChartMinutes(point.totalSeconds)),
+    0,
+  );
   if (maxMinutes === 0) {
     return 60;
   }
@@ -24,7 +38,7 @@ function getMaxChartValue(points: DailyWorkoutTimePoint[]): number {
   return Math.ceil(maxMinutes * 1.2);
 }
 
-export function DailyWorkoutTimeChart({ period }: GraphComponentProps) {
+export function DailyWorkoutTimeChart({ range }: GraphComponentProps) {
   const { colors } = useTheme();
   const [points, setPoints] = useState<DailyWorkoutTimePoint[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,12 +46,12 @@ export function DailyWorkoutTimeChart({ period }: GraphComponentProps) {
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await getDailyWorkoutTime(period);
+      const data = await getDailyWorkoutTime(range);
       setPoints(data);
     } finally {
       setLoading(false);
     }
-  }, [period]);
+  }, [range]);
 
   useEffect(() => {
     loadData();
@@ -57,24 +71,21 @@ export function DailyWorkoutTimeChart({ period }: GraphComponentProps) {
     return (
       <EmptyState
         title="No workout time yet"
-        subtitle="Complete workouts in this period to see your time chart."
+        subtitle="Complete workouts in this date range to see your time chart."
       />
     );
   }
 
-  const barData = points.map((point) => ({
+  const lineData = points.map((point) => ({
     value: toChartMinutes(point.totalSeconds),
     label: point.label,
-    frontColor: colors.tint,
+    dataPointColor: colors.tint,
   }));
 
   const maxValue = getMaxChartValue(points);
-  const barWidth = period === 'month' ? 8 : period === 'year' ? 18 : 28;
-  const spacing = period === 'month' ? 4 : period === 'year' ? 12 : 16;
-  const chartWidth = Math.max(
-    Dimensions.get('window').width - 48,
-    points.length * (barWidth + spacing) + 40
-  );
+  const spacing = getLineSpacing(points.length);
+  const chartWidth = getChartWidth(points.length, spacing, 80);
+  const commonChartProps = getCommonLineChartProps(colors);
 
   return (
     <RNView
@@ -83,23 +94,26 @@ export function DailyWorkoutTimeChart({ period }: GraphComponentProps) {
         { backgroundColor: colors.card, borderColor: colors.border },
       ]}
     >
-      <Text style={[styles.axisHint, { color: colors.muted }]}>Minutes per bucket</Text>
+      <Text style={[styles.axisHint, { color: colors.muted }]}>
+        Minutes per bucket
+      </Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <BarChart
-          data={barData}
+        <LineChart
+          {...getCommonAreaChartProps(colors)}
+          data={lineData}
           height={CHART_HEIGHT}
           width={chartWidth}
-          barWidth={barWidth}
           spacing={spacing}
           maxValue={maxValue}
           noOfSections={4}
-          yAxisTextStyle={{ color: colors.muted, fontSize: 11 }}
-          xAxisLabelTextStyle={{ color: colors.muted, fontSize: 10, width: 40 }}
-          rulesColor={colors.border}
-          yAxisColor={colors.border}
-          xAxisColor={colors.border}
-          isAnimated
+          color={colors.tint}
+          thickness={2}
+          dataPointsColor={colors.tint}
+          dataPointsRadius={4}
+          hideDataPoints={false}
+          {...commonChartProps}
           formatYLabel={(label) => `${label}m`}
+          adjustToWidth
         />
       </ScrollView>
       <RNView style={styles.footer}>
@@ -107,7 +121,10 @@ export function DailyWorkoutTimeChart({ period }: GraphComponentProps) {
           .filter((point) => point.totalSeconds > 0)
           .slice(-5)
           .map((point) => (
-            <Text key={point.dateKey} style={[styles.footerRow, { color: colors.muted }]}>
+            <Text
+              key={point.dateKey}
+              style={[styles.footerRow, { color: colors.muted }]}
+            >
               {point.label}: {formatWorkoutDuration(point.totalSeconds)}
             </Text>
           ))}
@@ -118,8 +135,8 @@ export function DailyWorkoutTimeChart({ period }: GraphComponentProps) {
 
 const styles = StyleSheet.create({
   loading: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 80,
   },
   card: {
@@ -128,7 +145,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 12,
     paddingLeft: 8,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   axisHint: {
     fontSize: 13,

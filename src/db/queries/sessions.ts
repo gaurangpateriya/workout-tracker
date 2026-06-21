@@ -2,6 +2,7 @@ import { uuidv4 } from '@/src/utils/uuid';
 
 import { getDatabase } from '@/src/db/database';
 import { withTransaction } from '@/src/db/transaction';
+import { ensureExercisesInCatalog } from '@/src/db/queries/exercises';
 import { getPlanWithExercises } from '@/src/db/queries/plans';
 import { assertValidSetInput } from '@/src/utils/validateSetInput';
 import type {
@@ -27,6 +28,7 @@ interface SessionExerciseRow {
   session_id: string;
   exercise_name: string;
   sort_order: number;
+  source_plan_exercise_id: string | null;
 }
 
 interface ExerciseSetRow {
@@ -57,6 +59,7 @@ function mapSessionExercise(row: SessionExerciseRow): SessionExercise {
     sessionId: row.session_id,
     exerciseName: row.exercise_name,
     sortOrder: row.sort_order,
+    sourcePlanExerciseId: row.source_plan_exercise_id,
   };
 }
 
@@ -95,12 +98,14 @@ export async function startWorkout(planId: string): Promise<string> {
 
     for (const exercise of plan.exercises) {
       await txn.runAsync(
-        `INSERT INTO session_exercises (id, session_id, exercise_name, sort_order)
-         VALUES (?, ?, ?, ?)`,
+        `INSERT INTO session_exercises (
+           id, session_id, exercise_name, sort_order, source_plan_exercise_id
+         ) VALUES (?, ?, ?, ?, ?)`,
         uuidv4(),
         sessionId,
         exercise.name,
-        exercise.sortOrder
+        exercise.sortOrder,
+        exercise.id
       );
     }
   });
@@ -124,7 +129,7 @@ export async function getSessionWithDetails(
   }
 
   const exerciseRows = await db.getAllAsync<SessionExerciseRow>(
-    `SELECT id, session_id, exercise_name, sort_order
+    `SELECT id, session_id, exercise_name, sort_order, source_plan_exercise_id
      FROM session_exercises
      WHERE session_id = ?
      ORDER BY sort_order ASC`,
@@ -153,6 +158,81 @@ export async function getSessionWithDetails(
     ...mapSession(sessionRow),
     exercises,
   };
+}
+
+export async function addExerciseToSession(
+  sessionId: string,
+  exerciseName: string
+): Promise<SessionExercise> {
+  const name = exerciseName.trim();
+  if (!name) {
+    throw new Error('Exercise name is required');
+  }
+
+  const db = await getDatabase();
+  const session = await db.getFirstAsync<{ id: string }>(
+    `SELECT id
+     FROM workout_sessions
+     WHERE id = ? AND completed_at IS NULL`,
+    sessionId
+  );
+
+  if (!session) {
+    throw new Error('Active session not found');
+  }
+
+  const lastExercise = await db.getFirstAsync<{ sort_order: number }>(
+    `SELECT sort_order
+     FROM session_exercises
+     WHERE session_id = ?
+     ORDER BY sort_order DESC
+     LIMIT 1`,
+    sessionId
+  );
+
+  const exercise: SessionExercise = {
+    id: uuidv4(),
+    sessionId,
+    exerciseName: name,
+    sortOrder: (lastExercise?.sort_order ?? -1) + 1,
+    sourcePlanExerciseId: null,
+  };
+
+  await db.runAsync(
+    `INSERT INTO session_exercises (
+       id, session_id, exercise_name, sort_order, source_plan_exercise_id
+     ) VALUES (?, ?, ?, ?, ?)`,
+    exercise.id,
+    exercise.sessionId,
+    exercise.exerciseName,
+    exercise.sortOrder,
+    null
+  );
+
+  return exercise;
+}
+
+export async function deleteExerciseFromSession(
+  sessionId: string,
+  sessionExerciseId: string
+): Promise<void> {
+  const db = await getDatabase();
+  const result = await db.runAsync(
+    `DELETE FROM session_exercises
+     WHERE id = ? AND session_id = ?
+       AND session_id IN (
+         SELECT id
+         FROM workout_sessions
+         WHERE id = ? AND completed_at IS NULL
+       )`,
+    sessionExerciseId,
+    sessionId,
+    sessionId
+  );
+
+  if (result.changes === 0) {
+    throw new Error(`Exercise not found: ${sessionExerciseId}`);
+  }
 }
 
 export async function addSet(
@@ -210,21 +290,90 @@ export async function addSet(
   };
 }
 
-export async function finishWorkout(sessionId: string): Promise<void> {
+export async function finishWorkout(
+  sessionId: string,
+  addedExercises: string[]
+): Promise<void> {
   const db = await getDatabase();
   const completedAt = Date.now();
 
-  const result = await db.runAsync(
-    `UPDATE workout_sessions
-     SET completed_at = ?
-     WHERE id = ? AND completed_at IS NULL`,
-    completedAt,
-    sessionId
-  );
+  await withTransaction(db, async (txn) => {
+    const session = await txn.getFirstAsync<{ plan_id: string }>(
+      `SELECT plan_id
+       FROM workout_sessions
+       WHERE id = ? AND completed_at IS NULL`,
+      sessionId
+    );
 
-  if (result.changes === 0) {
-    throw new Error(`Active session not found: ${sessionId}`);
-  }
+    if (!session) {
+      throw new Error(`Active session not found: ${sessionId}`);
+    }
+
+    const result = await txn.runAsync(
+      `UPDATE workout_sessions
+       SET completed_at = ?
+       WHERE id = ? AND completed_at IS NULL`,
+      completedAt,
+      sessionId
+    );
+
+    if (result.changes === 0) {
+      throw new Error(`Active session not found: ${sessionId}`);
+    }
+
+    if (addedExercises.length === 0) {
+      return;
+    }
+
+    const existingExercises = await txn.getAllAsync<{ name: string }>(
+      `SELECT name
+       FROM plan_exercises
+       WHERE plan_id = ?`,
+      session.plan_id
+    );
+    const existingNames = new Set(
+      existingExercises.map((exercise) => exercise.name.trim().toLowerCase())
+    );
+
+    const currentMax = await txn.getFirstAsync<{ sort_order: number }>(
+      `SELECT sort_order
+       FROM plan_exercises
+       WHERE plan_id = ?
+       ORDER BY sort_order DESC
+       LIMIT 1`,
+      session.plan_id
+    );
+    let nextSortOrder = (currentMax?.sort_order ?? -1) + 1;
+
+    const namesToPersist: string[] = [];
+    for (const exerciseName of addedExercises) {
+      const trimmed = exerciseName.trim();
+      if (!trimmed) {
+        continue;
+      }
+
+      const normalized = trimmed.toLowerCase();
+      if (existingNames.has(normalized)) {
+        continue;
+      }
+
+      existingNames.add(normalized);
+      namesToPersist.push(trimmed);
+      await txn.runAsync(
+        `INSERT INTO plan_exercises (id, plan_id, name, sort_order)
+         VALUES (?, ?, ?, ?)`,
+        uuidv4(),
+        session.plan_id,
+        trimmed,
+        nextSortOrder
+      );
+      nextSortOrder += 1;
+    }
+
+    if (namesToPersist.length > 0) {
+      await ensureExercisesInCatalog(namesToPersist);
+    }
+  });
 }
 
 export async function updateSessionMetadata(

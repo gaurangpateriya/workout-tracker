@@ -1,8 +1,11 @@
 import type { ComponentType } from 'react';
-import type { AnalyticsPeriod } from '@/src/types';
+export interface DashboardDateRange {
+  startMs: number;
+  endMs: number;
+}
 
 export interface GraphComponentProps {
-  period: AnalyticsPeriod;
+  range: DashboardDateRange;
 }
 
 export interface GraphDefinition {

@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import { Text, View } from '@/components/Themed';
+import { ExercisePicker } from '@/src/components/ExercisePicker';
 import { RestTimer } from '@/src/components/RestTimer';
 import { SetInputRow } from '@/src/components/SetInputRow';
 import { SetListItem } from '@/src/components/SetListItem';
@@ -26,6 +27,8 @@ export default function ActiveWorkoutScreen() {
   const { colors } = useTheme();
 
   const loadSession = useActiveWorkoutStore((s) => s.loadSession);
+  const addExercise = useActiveWorkoutStore((s) => s.addExercise);
+  const deleteExercise = useActiveWorkoutStore((s) => s.deleteExercise);
   const addSet = useActiveWorkoutStore((s) => s.addSet);
   const finishWorkout = useActiveWorkoutStore((s) => s.finishWorkout);
   const startSet = useActiveWorkoutStore((s) => s.startSet);
@@ -39,7 +42,9 @@ export default function ActiveWorkoutScreen() {
   const error = useActiveWorkoutStore((s) => s.error);
 
   const [finishing, setFinishing] = useState(false);
+  const [addingExercise, setAddingExercise] = useState(false);
   const [loadFailed, setLoadFailed] = useState(false);
+  const [exerciseToAdd, setExerciseToAdd] = useState('');
 
   useEffect(() => {
     if (!sessionId) {
@@ -69,6 +74,49 @@ export default function ActiveWorkoutScreen() {
 
   const handleStartSet = (exerciseId: string) => {
     startSet(exerciseId);
+  };
+
+  const handleAddExercise = async () => {
+    if (!exerciseToAdd.trim()) {
+      return;
+    }
+
+    setAddingExercise(true);
+    try {
+      await addExercise(exerciseToAdd);
+      setExerciseToAdd('');
+    } catch (err) {
+      showAlert(
+        'Could Not Add Exercise',
+        err instanceof Error ? err.message : 'Failed to add exercise.'
+      );
+    } finally {
+      setAddingExercise(false);
+    }
+  };
+
+  const handleDeleteExercise = (exerciseId: string, exerciseName: string) => {
+    showAlert(
+      'Delete Exercise',
+      `Remove "${exerciseName}" from this workout?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await deleteExercise(exerciseId);
+            } catch (err) {
+              showAlert(
+                'Could Not Delete',
+                err instanceof Error ? err.message : 'Failed to delete exercise.'
+              );
+            }
+          },
+        },
+      ]
+    );
   };
 
   const handleEndSet = async (
@@ -168,6 +216,44 @@ export default function ActiveWorkoutScreen() {
             </RNView>
           ) : null}
 
+          <RNView
+            style={[
+              styles.addExerciseCard,
+              { borderColor: colors.border, backgroundColor: colors.card },
+            ]}
+          >
+            <Text style={styles.addExerciseTitle}>Add Exercise</Text>
+            <RNView style={styles.addExerciseControls}>
+              <ExercisePicker
+                value={exerciseToAdd}
+                onChange={setExerciseToAdd}
+                placeholder="Choose an exercise"
+              />
+              <Pressable
+                onPress={handleAddExercise}
+                disabled={addingExercise || !exerciseToAdd.trim() || finishing}
+                style={({ pressed }) => [
+                  styles.addExerciseButton,
+                  {
+                    backgroundColor: colors.tint,
+                    opacity:
+                      pressed || addingExercise || !exerciseToAdd.trim() || finishing
+                        ? 0.6
+                        : 1,
+                  },
+                ]}
+              >
+                {addingExercise ? (
+                  <ActivityIndicator color={colors.buttonText} />
+                ) : (
+                  <Text style={[styles.addExerciseLabel, { color: colors.buttonText }]}>
+                    Add
+                  </Text>
+                )}
+              </Pressable>
+            </RNView>
+          </RNView>
+
           {exercises.map((exercise) => {
             const isSetActive = activeSet?.exerciseId === exercise.id;
             const isAnotherSetActive =
@@ -181,7 +267,25 @@ export default function ActiveWorkoutScreen() {
                   { borderColor: colors.border, backgroundColor: colors.card },
                 ]}
               >
-                <Text style={styles.exerciseName}>{exercise.exerciseName}</Text>
+                <RNView style={styles.exerciseHeader}>
+                  <Text style={styles.exerciseName}>{exercise.exerciseName}</Text>
+                  <Pressable
+                    onPress={() =>
+                      handleDeleteExercise(exercise.id, exercise.exerciseName)
+                    }
+                    disabled={finishing}
+                    style={({ pressed }) => [
+                      styles.deleteButton,
+                      {
+                        opacity: pressed || finishing ? 0.6 : 1,
+                      },
+                    ]}
+                  >
+                    <Text style={[styles.deleteLabel, { color: colors.error }]}>
+                      Delete
+                    </Text>
+                  </Pressable>
+                </RNView>
                 {exercise.sets.map((set) => (
                   <SetListItem key={set.id} set={set} />
                 ))}
@@ -250,10 +354,54 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 12,
   },
+  exerciseHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+    marginBottom: 8,
+  },
+  addExerciseCard: {
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+  },
+  addExerciseTitle: {
+    fontSize: 17,
+    fontWeight: '600',
+    marginBottom: 10,
+  },
+  addExerciseControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  addExerciseButton: {
+    minHeight: 44,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addExerciseLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
   exerciseName: {
     fontSize: 17,
     fontWeight: '600',
-    marginBottom: 8,
+    flex: 1,
+  },
+  deleteButton: {
+    minHeight: 32,
+    paddingHorizontal: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  deleteLabel: {
+    fontSize: 14,
+    fontWeight: '600',
   },
   footer: {
     padding: 16,

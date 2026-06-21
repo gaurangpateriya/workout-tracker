@@ -1,26 +1,30 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
-  Dimensions,
+  View as RNView,
   ScrollView,
   StyleSheet,
   Text,
-  View as RNView,
-} from 'react-native';
-import { LineChart } from 'react-native-gifted-charts';
+} from "react-native";
+import { LineChart } from "react-native-gifted-charts";
 
-import { EmptyState } from '@/src/components/EmptyState';
-import { getBodyWeightHistory } from '@/src/db/queries/analytics';
-import { useTheme } from '@/src/hooks/useTheme';
-import type { GraphComponentProps } from '@/src/analytics/types';
-import type { BodyWeightEntry } from '@/src/types';
-
-const CHART_HEIGHT = 220;
+import {
+  CHART_HEIGHT,
+  getChartWidth,
+  getCommonAreaChartProps,
+  getCommonLineChartProps,
+  getLineSpacing,
+} from "@/src/analytics/components/charts/chartConfig";
+import type { GraphComponentProps } from "@/src/analytics/types";
+import { EmptyState } from "@/src/components/EmptyState";
+import { getBodyWeightHistory } from "@/src/db/queries/analytics";
+import { useTheme } from "@/src/hooks/useTheme";
+import type { BodyWeightEntry } from "@/src/types";
 
 function formatSessionLabel(timestamp: number): string {
   return new Date(timestamp).toLocaleDateString(undefined, {
-    month: 'short',
-    day: 'numeric',
+    month: "numeric",
+    day: "numeric",
   });
 }
 
@@ -33,7 +37,7 @@ function getMaxValue(values: number[], fallback: number): number {
   return Math.ceil(max * 1.05);
 }
 
-export function BodyWeightChart({ period }: GraphComponentProps) {
+export function BodyWeightChart({ range }: GraphComponentProps) {
   const { colors } = useTheme();
   const [entries, setEntries] = useState<BodyWeightEntry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,12 +45,12 @@ export function BodyWeightChart({ period }: GraphComponentProps) {
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await getBodyWeightHistory(period);
+      const data = await getBodyWeightHistory(range);
       setEntries(data);
     } finally {
       setLoading(false);
     }
-  }, [period]);
+  }, [range]);
 
   useEffect(() => {
     loadData();
@@ -59,12 +63,8 @@ export function BodyWeightChart({ period }: GraphComponentProps) {
       dataPointColor: colors.tint,
     }));
 
-    const barWidth = period === 'year' ? 18 : period === 'month' ? 10 : 28;
-    const spacing = period === 'year' ? 12 : period === 'month' ? 6 : 16;
-    const chartWidth = Math.max(
-      Dimensions.get('window').width - 48,
-      entries.length * (barWidth + spacing) + 48
-    );
+    const spacing = getLineSpacing(entries.length);
+    const chartWidth = getChartWidth(entries.length, spacing);
 
     return {
       data,
@@ -72,10 +72,10 @@ export function BodyWeightChart({ period }: GraphComponentProps) {
       spacing,
       maxValue: getMaxValue(
         entries.map((entry) => entry.bodyWeight),
-        100
+        100,
       ),
     };
-  }, [colors.tint, entries, period]);
+  }, [colors.tint, entries]);
 
   if (loading) {
     return (
@@ -101,9 +101,12 @@ export function BodyWeightChart({ period }: GraphComponentProps) {
         { backgroundColor: colors.card, borderColor: colors.border },
       ]}
     >
-      <Text style={[styles.axisHint, { color: colors.muted }]}>Weight (kg)</Text>
+      <Text style={[styles.axisHint, { color: colors.muted }]}>
+        Weight (kg)
+      </Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <LineChart
+          {...getCommonAreaChartProps(colors)}
           data={chartConfig.data}
           height={CHART_HEIGHT}
           width={chartConfig.chartWidth}
@@ -114,13 +117,9 @@ export function BodyWeightChart({ period }: GraphComponentProps) {
           color={colors.tint}
           thickness={2}
           dataPointsColor={colors.tint}
-          yAxisTextStyle={{ color: colors.muted, fontSize: 11 }}
-          xAxisLabelTextStyle={{ color: colors.muted, fontSize: 10, width: 44 }}
-          rulesColor={colors.border}
-          yAxisColor={colors.border}
-          xAxisColor={colors.border}
-          isAnimated
+          {...getCommonLineChartProps(colors)}
           formatYLabel={(label) => `${label}`}
+          adjustToWidth
         />
       </ScrollView>
       <RNView style={styles.footer}>
@@ -139,8 +138,8 @@ export function BodyWeightChart({ period }: GraphComponentProps) {
 
 const styles = StyleSheet.create({
   loading: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 80,
   },
   card: {
@@ -149,7 +148,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 12,
     paddingLeft: 8,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   axisHint: {
     fontSize: 13,

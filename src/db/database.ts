@@ -31,6 +31,26 @@ async function runMigrations(db: SQLite.SQLiteDatabase): Promise<void> {
   if (!(await columnExists(db, 'workout_sessions', 'body_weight'))) {
     await db.execAsync(`ALTER TABLE workout_sessions ADD COLUMN body_weight REAL`);
   }
+
+  if (!(await columnExists(db, 'session_exercises', 'source_plan_exercise_id'))) {
+    await db.execAsync(
+      `ALTER TABLE session_exercises ADD COLUMN source_plan_exercise_id TEXT`
+    );
+    await db.execAsync(
+      `UPDATE session_exercises
+       SET source_plan_exercise_id = (
+         SELECT pe.id
+         FROM workout_sessions ws
+         JOIN plan_exercises pe
+           ON pe.plan_id = ws.plan_id
+          AND pe.name = session_exercises.exercise_name
+          AND pe.sort_order = session_exercises.sort_order
+         WHERE ws.id = session_exercises.session_id
+         LIMIT 1
+       )
+       WHERE source_plan_exercise_id IS NULL`
+    );
+  }
 }
 
 async function seedExerciseCatalog(db: SQLite.SQLiteDatabase): Promise<void> {
